@@ -1,8 +1,9 @@
-import React from 'react';
-import useWindowWidth from '../hooks/useWindowWidth';
+import React, { useContext } from 'react';
+import { IsSmallerDeviceContext } from '../context/IsSmallerDeviceProvider';
 
 export default function Container({ children }) {
-  const { isSmallerDevice } = useWindowWidth();
+  const { isSmallerDevice } = useContext(IsSmallerDeviceContext);
+  
   return (
     <div
       style={{

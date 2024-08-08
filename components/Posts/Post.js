@@ -10,6 +10,14 @@ const PostContainer = styled.div(() => ({
   overflow: 'hidden',
 }));
 
+const PostHeader = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '10px',
+  margin: '10px',
+  alignItems: 'center',
+}));
+
 const CarouselContainer = styled.div(() => ({
   position: 'relative',
 }));
@@ -56,12 +64,29 @@ const Button = styled.button(() => ({
 }));
 
 const PrevButton = styled(Button)`
+  top: 50%;
   left: 10px;
+  transform: translate(0, -50%);
 `;
 
 const NextButton = styled(Button)`
+  top: 50%;
   right: 10px;
+  transform: translate(0, -50%);
 `;
+
+const Icon = styled.div(() => ({
+  backgroundColor: 'gray',
+  borderRadius: '50%',
+  height: '50px',
+  width: '50px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontWeight: 'bold',
+  fontSize: 'large',
+  color: 'white',
+}));
 
 const Post = ({ post }) => {
   const carouselRef = useRef(null);
@@ -69,7 +94,7 @@ const Post = ({ post }) => {
   const handleNextClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: 50,
+        left: carouselRef.current.clientWidth,
         behavior: 'smooth',
       });
     }
@@ -78,7 +103,7 @@ const Post = ({ post }) => {
   const handlePrevClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: -70,
+        left: -carouselRef.current.clientWidth,
         behavior: 'smooth',
       });
     }
@@ -86,6 +111,15 @@ const Post = ({ post }) => {
 
   return (
     <PostContainer>
+      <PostHeader>
+        <Icon>
+          {post.user.name.split(' ').map(partName => partName[0].toUpperCase())}
+        </Icon>
+        <div>
+          <p style={{fontWeight: 'bold'}}>{post.user.name}</p>
+          <p style={{fontSize: 'small'}}>{post.user.email}</p>
+        </div>
+      </PostHeader>
       <CarouselContainer>
         <Carousel ref={carouselRef}>
           {post.images.map((image, index) => (
@@ -105,13 +139,17 @@ const Post = ({ post }) => {
   );
 };
 
+//Corrected the PropTypes for Post
 Post.propTypes = {
   post: PropTypes.shape({
     content: PropTypes.any,
-    images: PropTypes.shape({
-      map: PropTypes.func,
-    }),
-    title: PropTypes.any,
+    body: PropTypes.string,
+    images: PropTypes.array,
+    title: PropTypes.string,
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+    }), 
   }),
 };
 

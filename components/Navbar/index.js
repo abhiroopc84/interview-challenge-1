@@ -29,7 +29,7 @@ const Link = styled('a')(() => ({
 
 const TopNavbar = () => {
   return (
-    <div>
+    <div style={{ position: 'sticky', top: '0px', zIndex: '1000' }}>
       <Navbar>
         <ul style={{}}>
           <ListItem>
